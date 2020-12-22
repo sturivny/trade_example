@@ -35,7 +35,8 @@ jobs:
       # not hide secrets that use this workaround.
     - name: Test printing your secret (Remove this step in production)
       run:  |
+        ls -la
         pwd
-        ls $HOME/secrets/my_secret.json
+        ls /home/runner/work/trade_example/trade_example/secrets/my_secret.json
     - name: Run the code
       run: python trade_padax.py
