@@ -1,6 +1,7 @@
 import gspread
 
 from loguru import logger
+from oauth2client.service_account import ServiceAccountCredentials
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
@@ -9,11 +10,25 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 
-import time
-from time import gmtime, strftime
+import os
+from time import gmtime, strftime, sleep
 
 url = 'https://trade.pdax.ph/'
 firedox_driver_path = 'firefox_driver/geckodriver'
+
+# use creds to create a client to interact with the Google Drive API
+scope = [
+    "https://spreadsheets.google.com/feeds",
+    "https://www.googleapis.com/auth/drive",
+]
+
+# currency mapping
+currency = {'BTC': '//*[@id="select_option_8"]',
+            'ETH': '//*[@id="select_option_9"]',
+            'XRP': '//*[@id="select_option_10"]',
+            'BCH': '//*[@id="select_option_11"]',
+            'LTC': '//*[@id="select_option_12"]',
+            'USDT': '//*[@id="select_option_13"]'}
 
 
 def get_data_from_site():
@@ -23,14 +38,8 @@ def get_data_from_site():
 
     driver = webdriver.Firefox(executable_path=firedox_driver_path, options=firedox_options)
     driver.get(url)
-    time.sleep(5)
+    sleep(5)
 
-    currency = {'BTC': '//*[@id="select_option_8"]',
-                'ETH': '//*[@id="select_option_9"]',
-                'XRP': '//*[@id="select_option_10"]',
-                'BCH': '//*[@id="select_option_11"]',
-                'LTC': '//*[@id="select_option_12"]',
-                'USDT': '//*[@id="select_option_13"]'}
     result = {}
     for key, value in currency.items():
         delay = 10  # seconds
@@ -50,8 +59,7 @@ def get_data_from_site():
 
 
 def upload_to_google(data):
-
-    gc = gspread.service_account(filename='/home/sturivny/secrets/eliska-trade.json')
+    gc = gspread.service_account(filename='secrets/eliska-trade.json')
     sh = gc.create('trade_pdax_ph')
     sh.share('turivniy@gmail.com', perm_type='user', role='writer')
 
