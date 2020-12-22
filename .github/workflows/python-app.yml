@@ -34,9 +34,6 @@ jobs:
       # Ensure you remove any print statements of your secrets. GitHub does
       # not hide secrets that use this workaround.
     - name: Test printing your secret (Remove this step in production)
-      run:  |
-        ls -la
-        pwd
-        ls /home/runner/work/trade_example/trade_example/secrets/my_secret.json
+      run:  ls $HOME/secrets/eliska-trade.json
     - name: Run the code
       run: python trade_padax.py
