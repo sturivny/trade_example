@@ -59,8 +59,10 @@ def get_data_from_site():
 
 
 def upload_to_google(data):
-    gc = gspread.service_account(filename='$HOME/secrets/eliska-trade.json')
-    sh = gc.create('trade_pdax_ph')
+    gc = gspread.service_account(filename='/home/runner/secrets/eliska-trade.json')
+
+    now_time_filename = strftime("%Y-%m-%d", gmtime())
+    sh = gc.create('{}_trade_pdax_ph'.format(now_time_filename))
     sh.share('turivniy@gmail.com', perm_type='user', role='writer')
 
     worksheet = sh.get_worksheet(0)
