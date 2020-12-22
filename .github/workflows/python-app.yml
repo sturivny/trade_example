@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Decrypt large secret
-      run: ./.github/scripts/decrypt_secret.sh
+      run: ./decrypt_secret.sh
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
       # This command is just an example to show your secret being printed
