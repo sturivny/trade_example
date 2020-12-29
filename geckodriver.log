@@ -1,0 +1,22 @@
+1608666173797	geckodriver	INFO	Listening on 127.0.0.1:36033
+1608666174807	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileWbFBfW"
+*** You are running in headless mode.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1608666176343	Marionette	INFO	Listening on port 42783
+1608666176434	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: WebGL warning: <Create>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://trade.pdax.ph/main-3c94fe60a05dfb789360.js, line 317: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: resource://gre/modules/FileUtils.jsm, line 88: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIFile.create]
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.

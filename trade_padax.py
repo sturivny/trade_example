@@ -1,7 +1,11 @@
+"""
+This script gets data od currency from the site https://trade.pdax.ph/
+and uploads it to the google sheet document
+"""
+
 import gspread
 
 from loguru import logger
-from oauth2client.service_account import ServiceAccountCredentials
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
@@ -10,11 +14,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 
-import os
 from time import gmtime, strftime, sleep
 
 url = 'https://trade.pdax.ph/'
-firedox_driver_path = 'firefox_driver/geckodriver'
+firefox_driver_path = 'firefox_driver/geckodriver'
 
 # use creds to create a client to interact with the Google Drive API
 scope = [
@@ -32,11 +35,21 @@ currency = {'BTC': '//*[@id="select_option_8"]',
 
 
 def get_data_from_site():
-    firedox_options = Options()
+    """
+    Gets data from the site: https://trade.pdax.ph/
+    :return: dict
+      example: {'BTC': '15,001.00000',
+                'ETH': '1,123,040.00000',
+                'XRP': '30,421.30977',
+                'BCH': '23.20000',
+                'LTC': '15,001.00000',
+                'USDT': '5,252.48227'}
+    """
+    firefox_options = Options()
     # if disabled runs firefox in the memory
-    firedox_options.add_argument("--headless")
+    firefox_options.add_argument("--headless")
 
-    driver = webdriver.Firefox(executable_path=firedox_driver_path, options=firedox_options)
+    driver = webdriver.Firefox(executable_path=firefox_driver_path, options=firefox_options)
     driver.get(url)
     sleep(5)
 
@@ -45,10 +58,16 @@ def get_data_from_site():
         delay = 10  # seconds
         try:
             # select currency
-            driver.find_elements_by_xpath('/html/body/md-content/md-content/section/div[2]/section/div/div/section[1]/div/section/div/figure[1]/md-select/md-select-value/span[1]')[0].click()
+            driver.find_elements_by_xpath(
+                '/html/body/md-content/md-content/section/div[2]/section/div/div/section[1]/div/section/div/figure[1]/md-select/md-select-value/span[1]')[0].click()
             driver.find_elements_by_xpath(value)[0].click()
             # cost result
-            cost_result = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, '/html/body/md-content/md-content/section/div[2]/section/div/div/section[1]/div/div[1]/figure[1]/span[2]/strong')))
+            cost_result = WebDriverWait(
+                driver,
+                delay).until(
+                EC.presence_of_element_located((
+                    By.XPATH,
+                    '/html/body/md-content/md-content/section/div[2]/section/div/div/section[1]/div/div[1]/figure[1]/span[2]/strong')))
             cost_result = cost_result.text.split('₱')[-1]
 
             logger.info('{}: {}', key, cost_result)
@@ -59,10 +78,22 @@ def get_data_from_site():
 
 
 def upload_to_google(data):
+    """
+    Uploads data from the site to the google page
+
+    :param data: dict
+      example: {'BTC': '15,001.00000',
+                'ETH': '1,123,040.00000',
+                'XRP': '30,421.30977',
+                'BCH': '23.20000',
+                'LTC': '15,001.00000',
+                'USDT': '5,252.48227'}
+    :return: None
+    """
     gc = gspread.service_account(filename='/home/runner/secrets/eliska-trade.json')
 
-    now_time_filename = strftime("%Y-%m-%d", gmtime())
-    sh = gc.create('{}_trade_pdax_ph'.format(now_time_filename))
+    # now_time_filename = strftime("%Y-%m-%d", gmtime())
+    sh = gc.create('trade_pdax_ph')
     sh.share('turivniy@gmail.com', perm_type='user', role='writer')
 
     worksheet = sh.get_worksheet(0)
