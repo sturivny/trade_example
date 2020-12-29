@@ -1,4 +1,4 @@
-![.github/workflows/python-app.yml](https://github.com/sturivny/trade_example/workflows/.github/workflows/python-app.yml/badge.svg)
+![Python application](https://github.com/sturivny/trade_example/workflows/Python%20application/badge.svg)
 
 # trade_example
 
